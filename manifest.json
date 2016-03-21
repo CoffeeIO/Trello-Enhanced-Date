@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "Trello-Enhanced-Date",
+  "description": "Chrome Extension for making the Trello date reminder more customizable",
+  "version": "0.1.0",
+
+  "browser_action": {
+    "default_icon": "images/icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs", "https://www.trello.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://trello.com/*"],
+      "js": ["scripts/jquery.min.js", "scripts/trelloDate.js"]
+    }
+  ]
+}
