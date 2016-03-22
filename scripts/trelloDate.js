@@ -24,6 +24,7 @@ $(document).ready(function () {
             trelloDate += ' ' + currentDate.getFullYear();
         }
         console.log(trelloDate);
+        // Modified, Credit to @(http://stackoverflow.com/a/3224854)
         var timeDiff = new Date(trelloDate).getTime() - currentDate.getTime();
         var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
         console.log(diffDays);
