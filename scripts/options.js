@@ -23,22 +23,22 @@ $(document).ready(function () {
   
   $('#save').click(function () {
     
-    var arr = {};
-    var key = $('.set1 input[type=number]').val();
-    if (key != null && key != '') {
-      var value = $('.set1 .jscolor').val();
-      if (value != null && value != '' && value.length <= 6) {
-        arr[key] = value;
-      }
-    }
+    var table = $('.table'),
+        arr = {},
+        key = '',
+        color = '';
     
-    var key2 = $('.set2 input[type=number]').val();
-    if (key2 != null && key2 != '') {
-      var value2 = $('.set2 .jscolor').val();
-      if (value2 != null && value2 != '' && value2.length <= 6) {
-        arr[key2] = value2;
+    table.find('.setting').each(function (index, obj) {
+      key = $(this).find('.day').val();
+      if (key == null || key == '') { 
+        return 'non-false';
       }
-    }
+      color = $(this).find('.color').val();
+      if (color == null || color == '' || color.length > 6) {
+        return 'non-false';
+      }
+      arr[key] = color;
+    });
     
     var keys = Object.keys(arr);
     console.log(keys);
