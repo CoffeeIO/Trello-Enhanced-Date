@@ -21,20 +21,35 @@ $(document).ready(function () {
     });
   }
   
+  var table = $('.table');
+  var tableRow = 
+        '<tr class="setting">' +
+          '<td>' + 
+            '<input type="number" class="day form-control">' +
+          '</td>' +
+          '<td>' + 
+            '<input class="color" value="#FFFFFF" class="form-control">' +
+          '</td>' +
+          '<td>' + 
+            '<button type="button" class="removeCol btn btn-default">x</button>' +
+          '</td>' +
+        '</tr>';
+  
+  // Save options
   $('#save').click(function () {
-    
-    var table = $('.table'),
-        arr = {},
+    var arr = {},
         key = '',
         color = '';
     
     table.find('.setting').each(function (index, obj) {
       key = $(this).find('.day').val();
+      console.log('cur key --> ' + key);
       if (key == null || key == '') { 
         return 'non-false';
       }
       color = $(this).find('.color').val();
-      if (color == null || color == '' || color.length > 6) {
+      console.log('cur color --> ' + color);
+      if (color == null || color == '' || color.length > 7) {
         return 'non-false';
       }
       arr[key] = color;
@@ -49,5 +64,24 @@ $(document).ready(function () {
     console.log(JSON.stringify(arr));
     saveOptions(arr);
   });
+  
+  table.find('.addCol').click(function () {
+    table.find('.rowFixed').before(tableRow);
+    loadColorPicker();
+  });
+  
+  $(document).on('click', '.removeCol', function() {
+    $(this).closest('.setting').remove();
+  });
+  function loadColorPicker() {
+    table.find('.color').colorPicker({
+      opacity: false, // disables opacity slider
+      renderCallback: function($elm, toggled) {
+          $elm.val('#' + this.color.colors.HEX);
+      }
+    });
+  }
+  
+  loadColorPicker();
   loadOptions();
 });

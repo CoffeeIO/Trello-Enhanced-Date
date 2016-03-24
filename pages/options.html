@@ -16,42 +16,40 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr class="setting">
           <td>
-            <input type="number" class="form-control">
+            <input type="number" class="day form-control">
           </td>
           <td>
-            <input class="jscolor" value="ffffff" class="form-control">
+            <input class="color" value="#FFFFFF" class="form-control">
           </td>
           <td>
-            <button type="button" class="btn btn-default">x</button>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <input type="number" class="form-control">
-          </td>
-          <td>
-            <input class="jscolor" value="ffffff" class="form-control">
-          </td>
-          <td>
-            <button type="button" class="btn btn-default">x</button>
+            <button type="button" class="removeCol btn btn-default">x</button>
           </td>
         </tr>
-        <tr>
+        <tr class="setting">
+          <td>
+            <input type="number" class="day form-control">
+          </td>
+          <td>
+            <input class="color" value="#FFFFFF" class="form-control">
+          </td>
+          <td>
+            <button type="button" class="removeCol btn btn-default">x</button>
+          </td>
+        </tr>
+        <tr class="rowFixed">
           <td></td>
           <td></td>
           <td>
-            <button type="button" class="btn btn-default">+</button>
+            <button type="button" class="addCol btn btn-default">+</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <div id="status"></div>
-    <button id="save" class="btn btn-primary">Save Settings</button>
-
+    <button id="save" class="btn btn-primary">Save</button><span id="status" style="margin-left:10px;"></span>
     <script src="/scripts/jquery.min.js"></script>
-    <script src="/scripts/jscolor.min.js"></script>
+    <script src="/scripts/jqColorPicker.min.js"></script>
     <script src="/scripts/options.js"></script>
   </div>  
 </body>
