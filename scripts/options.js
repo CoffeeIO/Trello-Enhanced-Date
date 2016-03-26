@@ -83,21 +83,24 @@ $(document).ready(function () {
   table.find('.addCol').click(function () {
     addRow('', rowDefaultColor);
   });
-  
   $(document).on('click', '.removeCol', function() {
     $(this).closest('.setting').remove();
   });
   
-  // Reload tinyColorPicker
+  // Reload colorPicker by PitPik
   function loadColorPicker() {
     table.find('.color').last().colorPicker({
-      opacity: false, // disables opacity slider
-      renderCallback: function($elm, toggled) {
-          $elm.val('#' + this.color.colors.HEX);
+      noAlpha: true, // disables opacity slider
+      cmyOnly: false,
+      noRGBr: false,
+      noRGBg: false,
+      noRGBb: false,
+      init: function(elm, colors) {
+        elm.style.backgroundColor = elm.value;
+        elm.style.color = colors.rgbaMixCustom.luminance > 0.22 ? '#222' : '#ddd';
       }
     });
   }
   
-  loadColorPicker();
   loadOptions();
 });
