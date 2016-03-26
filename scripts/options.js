@@ -20,19 +20,10 @@ $(document).ready(function () {
       }, 750);
     });
   }
-  var table = $('.table');
-  var tableRow = 
-        '<tr class="setting">' +
-          '<td>' + 
-            '<input type="number" class="day form-control">' +
-          '</td>' +
-          '<td>' + 
-            '<input class="color form-control" value="#FFFFFF">' +
-          '</td>' +
-          '<td>' + 
-            '<button type="button" class="removeCol btn btn-default">x</button>' +
-          '</td>' +
-        '</tr>';
+  var table = $('.table'),
+      rowDefaultColor = '#FFFFFF',
+      tableRowNumber = '',
+      tableRowColor = '';
   
   // Save options
   $('#save').click(function () {
@@ -64,13 +55,33 @@ $(document).ready(function () {
     saveOptions(arr);
   });
   function loadTableFromSettings(settingsMap, sortedKeys) {
-    console.log("Table --> " + settingsMap);
+    console.log(settingsMap);
     console.log("Table --> " + sortedKeys);
+    sortedKeys.forEach(function (key) {
+      console.log('printing --> ' + key);
+      addRow(key, settingsMap[key]);
+    });
   }
-  
-  table.find('.addCol').click(function () {
+  function addRow(number, color) {
+    tableRowNumber = number,
+    tableRowColor = color,
+    tableRow = 
+          '<tr class="setting">' +
+            '<td>' + 
+              '<input type="number" class="day form-control" value="' + tableRowNumber + '">' +
+            '</td>' +
+            '<td>' + 
+              '<input class="color form-control" value="' + tableRowColor + '">' +
+            '</td>' +
+            '<td>' + 
+              '<button type="button" class="removeCol btn btn-default">x</button>' +
+            '</td>' +
+          '</tr>';      
     table.find('.rowFixed').before(tableRow);
     loadColorPicker();
+  }
+  table.find('.addCol').click(function () {
+    addRow('', rowDefaultColor);
   });
   
   $(document).on('click', '.removeCol', function() {
@@ -79,7 +90,7 @@ $(document).ready(function () {
   
   // Reload tinyColorPicker
   function loadColorPicker() {
-    table.find('.color').colorPicker({
+    table.find('.color').last().colorPicker({
       opacity: false, // disables opacity slider
       renderCallback: function($elm, toggled) {
           $elm.val('#' + this.color.colors.HEX);
