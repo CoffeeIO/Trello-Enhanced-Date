@@ -5,7 +5,7 @@ $(document).ready(function () {
     }, function (items) {
       var loadArr = items.dateColor;
       console.log(Object.keys(loadArr));
-      
+      loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)));
     });
   }
   function saveOptions(arr) {
@@ -20,7 +20,6 @@ $(document).ready(function () {
       }, 750);
     });
   }
-  
   var table = $('.table');
   var tableRow = 
         '<tr class="setting">' +
@@ -28,7 +27,7 @@ $(document).ready(function () {
             '<input type="number" class="day form-control">' +
           '</td>' +
           '<td>' + 
-            '<input class="color" value="#FFFFFF" class="form-control">' +
+            '<input class="color form-control" value="#FFFFFF">' +
           '</td>' +
           '<td>' + 
             '<button type="button" class="removeCol btn btn-default">x</button>' +
@@ -52,7 +51,7 @@ $(document).ready(function () {
       if (color == null || color == '' || color.length > 7) {
         return 'non-false';
       }
-      arr[key] = color;
+      arr[key] = color; // Make json string and add text color 
     });
     
     var keys = Object.keys(arr);
@@ -64,6 +63,10 @@ $(document).ready(function () {
     console.log(JSON.stringify(arr));
     saveOptions(arr);
   });
+  function loadTableFromSettings(settingsMap, sortedKeys) {
+    console.log("Table --> " + settingsMap);
+    console.log("Table --> " + sortedKeys);
+  }
   
   table.find('.addCol').click(function () {
     table.find('.rowFixed').before(tableRow);
@@ -73,6 +76,8 @@ $(document).ready(function () {
   $(document).on('click', '.removeCol', function() {
     $(this).closest('.setting').remove();
   });
+  
+  // Reload tinyColorPicker
   function loadColorPicker() {
     table.find('.color').colorPicker({
       opacity: false, // disables opacity slider

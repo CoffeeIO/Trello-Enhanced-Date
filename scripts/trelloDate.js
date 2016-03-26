@@ -12,11 +12,7 @@ $(document).ready(function () {
       applyDateEnchance(loadArr, arrSorted);
     });
   }
-  function sortIntArray(arr) {
-    var intArr = arr.map(Number);
-    return intArr.sort();
-  }
-  
+
   var trelloBoard = $('#board'),
       currentDate = new Date(),
       month = currentDate.getMonth() + 1,
@@ -31,7 +27,7 @@ $(document).ready(function () {
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this);
       var trelloDate = ele.find('.badge-text').text();
-      ele.css('background-color', '#c66b0f');
+      ele.css('background-color', '#fff'); // Overwrite all cards w/ default color
       if (trelloDate.match(smallDateRegex)) {
         trelloDate += ' ' + currentDate.getFullYear();
       }
@@ -43,7 +39,7 @@ $(document).ready(function () {
         console.log("compare --> " + key + " to " + diffDays);
         if (key <= diffDays) {
           console.log("color --> " + settingsMap[key]);
-          ele.css('background-color', '#' + settingsMap[key]);
+          ele.css('background-color', settingsMap[key]);
         }
       });
       
