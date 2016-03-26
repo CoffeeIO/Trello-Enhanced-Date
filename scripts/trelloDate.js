@@ -38,8 +38,11 @@ $(document).ready(function () {
       sortedKeys.forEach(function (key) {
         console.log("compare --> " + key + " to " + diffDays);
         if (key <= diffDays) {
-          console.log("color --> " + settingsMap[key]);
-          ele.css('background-color', settingsMap[key]);
+          var arr = JSON.parse(settingsMap[key]);
+          console.log("color --> " + arr.color);
+          console.log("textcolor --> " + arr.textColor);
+          ele.css('background-color', arr.color);
+          ele.css('color', arr.textColor);
         }
       });
       

@@ -7,10 +7,10 @@ function sortIntArray(arr) {
 }
 
 /**
- * Decide if hex color is need black or white text color.
- * Credit to @(http://stackoverflow.com/a/12043228/2741279)
+ * Decide if hex color needs black or white text color to match.
+ * Modified, Credit to @(http://stackoverflow.com/a/12043228/2741279)
  */
-function isDark(c) {
+function getLumColor(c) {
   var c = c.substring(1);      // strip #
   var rgb = parseInt(c, 16);   // convert rrggbb to decimal
   var r = (rgb >> 16) & 0xff;  // extract red
@@ -18,10 +18,10 @@ function isDark(c) {
   var b = (rgb >>  0) & 0xff;  // extract blue
 
   var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
-
-  if (luma < 40) {
-    return false;
+  console.log("lumen --> " + luma);
+  if (luma < 100) {
+    return "#DDDDDD";
   } else {
-    return true;
+    return "#222222";
   }
 }

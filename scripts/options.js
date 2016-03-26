@@ -42,7 +42,10 @@ $(document).ready(function () {
       if (color == null || color == '' || color.length > 7) {
         return 'non-false';
       }
-      arr[key] = color; // Make json string and add text color 
+      arr[key] = JSON.stringify({
+        "color": color,
+        "textColor": getLumColor(color)
+      });
     });
     
     var keys = Object.keys(arr);
@@ -59,7 +62,8 @@ $(document).ready(function () {
     console.log("Table --> " + sortedKeys);
     sortedKeys.forEach(function (key) {
       console.log('printing --> ' + key);
-      addRow(key, settingsMap[key]);
+      var arr = JSON.parse(settingsMap[key]);
+      addRow(key, arr.color);
     });
   }
   function addRow(number, color) {
