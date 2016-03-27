@@ -1,13 +1,18 @@
 $(document).ready(function () {
+  var table = $('.table'),
+      rowDefaultColor = '#FFFFFF';
+  
+  // Load settings from chrome storage
   function loadOptions() {
     chrome.storage.sync.get({
       dateColor: ''
     }, function (items) {
       var loadArr = items.dateColor;
-      console.log(Object.keys(loadArr));
       loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)));
     });
   }
+  
+  // Save settings array to chrome storage
   function saveOptions(arr) {
     chrome.storage.sync.set({
       dateColor: arr
@@ -20,76 +25,6 @@ $(document).ready(function () {
       }, 750);
     });
   }
-  var table = $('.table'),
-      rowDefaultColor = '#FFFFFF',
-      tableRowNumber = '',
-      tableRowColor = '';
-  
-  // Save options
-  $('#save').click(function () {
-    var arr = {},
-        key = '',
-        color = '';
-    
-    table.find('.setting').each(function (index, obj) {
-      key = $(this).find('.day').val();
-      console.log('cur key --> ' + key);
-      if (key == null || key == '') { 
-        return 'non-false';
-      }
-      color = $(this).find('.color').val();
-      console.log('cur color --> ' + color);
-      if (color == null || color == '' || color.length > 7) {
-        return 'non-false';
-      }
-      arr[key] = JSON.stringify({
-        "color": color,
-        "textColor": getLumColor(color)
-      });
-    });
-    
-    var keys = Object.keys(arr);
-    console.log(keys);
-    keys.forEach(function (entry) {
-      console.log(arr[entry]);
-    });
-    
-    console.log(JSON.stringify(arr));
-    saveOptions(arr);
-  });
-  function loadTableFromSettings(settingsMap, sortedKeys) {
-    console.log(settingsMap);
-    console.log("Table --> " + sortedKeys);
-    sortedKeys.forEach(function (key) {
-      console.log('printing --> ' + key);
-      var arr = JSON.parse(settingsMap[key]);
-      addRow(key, arr.color);
-    });
-  }
-  function addRow(number, color) {
-    tableRowNumber = number,
-    tableRowColor = color,
-    tableRow = 
-          '<tr class="setting">' +
-            '<td>' + 
-              '<input type="number" class="day form-control" value="' + tableRowNumber + '">' +
-            '</td>' +
-            '<td>' + 
-              '<input class="color form-control" value="' + tableRowColor + '">' +
-            '</td>' +
-            '<td>' + 
-              '<button type="button" class="removeCol btn btn-default">x</button>' +
-            '</td>' +
-          '</tr>';      
-    table.find('.rowFixed').before(tableRow);
-    loadColorPicker();
-  }
-  table.find('.addCol').click(function () {
-    addRow('', rowDefaultColor);
-  });
-  $(document).on('click', '.removeCol', function() {
-    $(this).closest('.setting').remove();
-  });
   
   // Reload colorPicker by PitPik
   function loadColorPicker() {
@@ -105,6 +40,67 @@ $(document).ready(function () {
       }
     });
   }
+  
+  // Add table row for each setting
+  function loadTableFromSettings(settingsMap, sortedKeys) {
+    sortedKeys.forEach(function (key) {
+      var arr = JSON.parse(settingsMap[key]);
+      addRow(key, arr.color);
+    });
+  }
+  
+  // Add row to table
+  function addRow(number, color) {
+    var tableRow = 
+          '<tr class="setting">' +
+            '<td>' + 
+              '<input type="number" class="day form-control" value="' + number + '">' +
+            '</td>' +
+            '<td>' + 
+              '<input class="color form-control" value="' + color + '">' +
+            '</td>' +
+            '<td>' + 
+              '<button type="button" class="removeRow btn btn-default">x</button>' +
+            '</td>' +
+          '</tr>';
+  
+    table.find('.rowFixed').before(tableRow);
+    loadColorPicker();
+  }
+  
+  // Save options button
+  $('#save').click(function () {
+    var arr = {},
+        key = '',
+        color = '';
+    
+    table.find('.setting').each(function (index, obj) {
+      key = $(this).find('.day').val();
+      if (key === null || key === '') { 
+        return 'non-false';
+      }
+      color = $(this).find('.color').val();
+      if (color === null || color === '' || color.length > 7) {
+        return 'non-false';
+      }
+      arr[key] = JSON.stringify({
+        "color": color,
+        "textColor": getLumColor(color)
+      });
+    });
+        
+    saveOptions(arr);
+  });
+  
+  // Add row button
+  table.find('.addRow').click(function () {
+    addRow('', rowDefaultColor);
+  });
+  
+  // Remove row button
+  $(document).on('click', '.removeRow', function() {
+    $(this).closest('.setting').remove();
+  });
   
   loadOptions();
 });
