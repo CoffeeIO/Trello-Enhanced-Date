@@ -1,3 +1,11 @@
+var trelloApp = angular.module('trelloApp', []);
+  trelloApp.controller('trelloController', function($scope) {
+    $scope.inputs = [];
+    $scope.addField = function () {
+      $scope.inputs.push({})
+      console.log('push inputs');
+    }
+});
 $(document).ready(function () {
   function loadOptions() {
     chrome.storage.sync.get({
@@ -72,10 +80,10 @@ $(document).ready(function () {
     tableRow = 
           '<tr class="setting">' +
             '<td>' + 
-              '<input type="number" class="day form-control" value="' + tableRowNumber + '">' +
+              '<input type="number" class="day form-control" value="' + tableRowNumber + '" ng-model="trello.key" required>' +
             '</td>' +
             '<td>' + 
-              '<input class="color form-control" value="' + tableRowColor + '">' +
+              '<input class="color form-control" value="' + tableRowColor + '" name="color" ng-model="trello.color" ng-minlength="7" ng-maxlength="7" required>' +
             '</td>' +
             '<td>' + 
               '<button type="button" class="removeCol btn btn-default">x</button>' +
@@ -105,6 +113,5 @@ $(document).ready(function () {
       }
     });
   }
-  
   loadOptions();
 });

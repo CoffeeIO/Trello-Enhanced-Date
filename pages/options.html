@@ -1,38 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="trelloApp">
 <head>
   <title>My Test Extension Options</title>
-  <link rel="stylesheet" href="/styles/bootstrap.min.css" />
+  <link rel="stylesheet" href="/styles/vendor/bootstrap.min.css" />
   <link rel="stylesheet" href="/styles/options.css" />
 </head>
-<body>
+<body ng-controller="trelloController">
   <div class="container">
     <h3>Trello-Enhanced-Date settings</h3>
-    <table class="table table-striped">
-     <col width="50%">
-     <col width="50%">
-     <col width="50">
-      <thead>
-        <tr>
-          <th>Days:</th>
-          <th>Color:</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="rowFixed">
-          <td></td>
-          <td></td>
-          <td>
-            <button type="button" class="addCol btn btn-default">+</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <button id="save" class="btn btn-primary">Save</button><span id="status" style="margin-left:10px;"></span>
+    <form name="trelloForm" ng-submit="submit()" >
+      <table class="table table-striped">
+       <col width="50%">
+       <col width="50%">
+       <col width="50">
+        <thead>
+          <tr>
+            <th>Days:</th>
+            <th>Color:</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr class="setting" ng-repeat="item in inputs">
+            <td>
+              <input type="number" class="day form-control" value="" ng-model="trello.key" required>
+            </td>
+            <td>
+              <input class="color form-control" value="" name="color" ng-model="trello.color" ng-minlength="7" ng-maxlength="7" required>
+            </td>
+            <td>
+              <button type="button" class="removeCol btn btn-default">x</button>
+            </td>
+          </tr>
+          
+          <tr class="rowFixed">
+            <td></td>
+            <td></td>
+            <td>
+              <button type="button" ng-click="addfield()" class="btn btn-default">+</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <input type="submit" id="save" class="btn btn-primary" value="Save"><span id="status" style="margin-left:10px;"></span>
     
-    <script src="/scripts/jquery.min.js"></script>
-    <script src="/scripts/jQueryColorPicker.min.js"></script>
+    <script src="/scripts/vendor/jquery.min.js"></script>
+    <script src="/scripts/vendor/angular.min.js"></script>
+    <script src="/scripts/vendor/jQueryColorPicker.min.js"></script>
     <script src="/scripts/basic.js"></script>
     <script src="/scripts/options.js"></script>
   </div>  
