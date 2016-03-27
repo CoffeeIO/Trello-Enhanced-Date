@@ -17,7 +17,7 @@
   "content_scripts": [
     {
       "matches": ["*://trello.com/*", "*://www.trello.com/*"],
-      "js": ["/scripts/jquery.min.js","/scripts/basic.js", "/scripts/trelloDate.js"]
+      "js": ["/scripts/vendor/jquery.min.js","/scripts/basic.js", "/scripts/trelloDate.js"]
     }
   ]
 }
