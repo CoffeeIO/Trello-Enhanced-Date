@@ -44,5 +44,29 @@ $(document).ready(function () {
     });
   }
   
+  
+  // Re-apply trello enhance when dom changes, limit to once per second.
+  var maxRefreshRate = 1000,
+      canRefresh = true;
+  setInterval(function () {
+    canRefresh = true; 
+  }, maxRefreshRate);
+  
+  // Modified, Credit to @(http://stackoverflow.com/a/11546242/2741279)
+  MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+  var observer = new MutationObserver(function(mutations, observer) {
+    if (canRefresh) {
+      trelloBoard = $('#board'); // Re-declare the new board
+      loadSettings();
+      canRefresh = false;
+    }
+  });
+  observer.observe(document.getElementById("content"), {
+    subtree: true,
+    attributes: true
+  });
+  
+  
   loadSettings();  
 });
+
