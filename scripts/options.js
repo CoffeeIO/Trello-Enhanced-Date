@@ -1,6 +1,10 @@
 $(document).ready(function () {
   var table = $('.table'),
-      rowDefaultColor = '#FFFFFF';
+      status = $('#status'),
+      statusIcon = $('#status-icon'),
+      rowDefaultColor = '#FFFFFF',
+      numberRegex = /^[\-]?[\d]*$/,
+      colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
   
   // Load settings from chrome storage
   function loadOptions() {
@@ -17,11 +21,11 @@ $(document).ready(function () {
     chrome.storage.sync.set({
       dateColor: arr
     }, function () {
-      // Update status to let user know options were saved.
-      var status = document.getElementById('status');
-      status.textContent = 'Options saved.';
+      status.text('Options saved');
+      statusIcon.addClass('glyphicon-ok-sign');
       setTimeout(function () {
-        status.textContent = '';
+        status.text('');
+        statusIcon.removeClass('glyphicon-ok-sign');
       }, 750);
     });
   }
@@ -54,10 +58,10 @@ $(document).ready(function () {
     var tableRow = 
           '<tr class="setting">' +
             '<td>' + 
-              '<input type="number" class="day form-control" value="' + number + '" required>' +
+              '<input type="number" class="day form-control" value="' + number + '" title="Input valid number">' +
             '</td>' +
             '<td>' + 
-              '<input class="color form-control" value="' + color + '" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" required>' +
+              '<input class="color form-control" value="' + color + '" title="Input valid HEX color">' +
             '</td>' +
             '<td>' + 
               '<button type="button" class="removeRow btn btn-default">x</button>' +
@@ -67,39 +71,51 @@ $(document).ready(function () {
     table.find('.rowFixed').before(tableRow);
     loadColorPicker();
   }
-  var $form = $('#trelloForm');
-    $form.validate();
   
   // Save options button
   $('#save').click(function () {
-    event.preventDefault();
+    status.text('');
+    statusIcon.removeClass('glyphicon-remove-sign');
     
-    if ($form.valid()) {
-      /* submit the form */
-      console.log('submit form');
-    }
-    console.log('don"t form');
-
     var arr = {},
         key = '',
-        color = '';
+        color = '',
+        formValid = true;
     
     table.find('.setting').each(function (index, obj) {
-      key = $(this).find('.day').val();
-      if (key === null || key === '') { 
-        return 'non-false';
+      
+      var $dayInput = $(this).find('.day'),
+          $colorInput = $(this).find('.color');
+      
+      key = $dayInput.val();
+      if (key === null || key === '' || !key.match(numberRegex)) { 
+        $dayInput.addClass('invalid');
+        formValid = false;
+        return false;
+      } else {
+        $dayInput.removeClass('invalid');
       }
-      color = $(this).find('.color').val();
-      if (color === null || color === '' || color.length > 7) {
-        return 'non-false';
+      
+      color = $colorInput.val();
+      if (color === null || color === '' || !color.match(colorRegex)) {
+        $colorInput.addClass('invalid');
+        formValid = false;
+        return false;
+      } else {
+        $colorInput.removeClass('invalid');
       }
       arr[key] = JSON.stringify({
         "color": color,
         "textColor": getLumColor(color)
       });
     });
-        
-    saveOptions(arr);
+    
+    if (formValid) {
+      saveOptions(arr);
+    } else {
+      status.text('form invalid');
+      statusIcon.addClass('glyphicon-remove-sign');
+    }
   });
   
   // Add row button
