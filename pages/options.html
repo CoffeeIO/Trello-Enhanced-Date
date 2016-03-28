@@ -7,6 +7,7 @@
 </head>
 <body>
   <div class="container">
+    <form id="trelloForm">
     <h3>Trello-Enhanced-Date settings</h3>
     <table class="table table-striped">
      <col width="50%">
@@ -29,9 +30,11 @@
         </tr>
       </tbody>
     </table>
-    <button id="save" class="btn btn-primary">Save</button><span id="status" style="margin-left:10px;"></span>
+    <button type="submit" id="save" class="btn btn-primary">Save</button><span id="status" style="margin-left:10px;"></span>
+    </form>
     
     <script src="/scripts/vendor/jquery.min.js"></script>
+    <script src="/scripts/vendor/jquery.validate.min.js"></script>
     <script src="/scripts/vendor/jQueryColorPicker.min.js"></script>
     <script src="/scripts/basic.js"></script>
     <script src="/scripts/options.js"></script>

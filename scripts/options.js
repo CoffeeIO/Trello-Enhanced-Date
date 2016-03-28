@@ -54,10 +54,10 @@ $(document).ready(function () {
     var tableRow = 
           '<tr class="setting">' +
             '<td>' + 
-              '<input type="number" class="day form-control" value="' + number + '">' +
+              '<input type="number" class="day form-control" value="' + number + '" required>' +
             '</td>' +
             '<td>' + 
-              '<input class="color form-control" value="' + color + '">' +
+              '<input class="color form-control" value="' + color + '" pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$" required>' +
             '</td>' +
             '<td>' + 
               '<button type="button" class="removeRow btn btn-default">x</button>' +
@@ -67,9 +67,19 @@ $(document).ready(function () {
     table.find('.rowFixed').before(tableRow);
     loadColorPicker();
   }
+  var $form = $('#trelloForm');
+    $form.validate();
   
   // Save options button
   $('#save').click(function () {
+    event.preventDefault();
+    
+    if ($form.valid()) {
+      /* submit the form */
+      console.log('submit form');
+    }
+    console.log('don"t form');
+
     var arr = {},
         key = '',
         color = '';

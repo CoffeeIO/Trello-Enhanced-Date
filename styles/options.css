@@ -1,4 +1,8 @@
 body {
   padding-bottom: 200px;
 }
-
+input:invalid {
+  background: #fff;
+  box-shadow: 0 0 5px #d45252;
+  border-color: #b03535
+}
