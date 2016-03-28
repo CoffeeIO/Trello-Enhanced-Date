@@ -22,7 +22,6 @@ $(document).ready(function () {
   
   // Apply date styling to trello
   function applyDateEnchance(settingsMap, sortedKeys) {
-    console.log("enchance");
     trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this),
@@ -47,9 +46,6 @@ $(document).ready(function () {
   }
   
   // Re-apply trello enhance when dom changes, limit to once per second.
-  
-  
-  
   var maxRefreshRate = 1000,
       canRefresh = true,
       domDirty = false,
