@@ -22,6 +22,8 @@ $(document).ready(function () {
   
   // Apply date styling to trello
   function applyDateEnchance(settingsMap, sortedKeys) {
+    console.log("enchance");
+    trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this),
           date = ele.find('.badge-text').text();
@@ -44,28 +46,47 @@ $(document).ready(function () {
     });
   }
   
-  
   // Re-apply trello enhance when dom changes, limit to once per second.
+  
+  
+  
   var maxRefreshRate = 1000,
-      canRefresh = true;
+      canRefresh = true,
+      domDirty = false,
+      ignoreDomChange = false;
+  
+  function reapplyEnhancer() {
+    ignoreDomChange = true; // Ignore dom change since loadSettings() cause change in dom
+    canRefresh = false;     // Allow the enhancer to be applied on dom change
+    domDirty = false;       // Marks the dom as dirty if changes happened within the maxRefreshRate
+    loadSettings();         // Reload enhancer
+  }
+  
   setInterval(function () {
-    canRefresh = true; 
+    if (domDirty) {
+      reapplyEnhancer();
+    } else {
+      canRefresh = true;
+    }
   }, maxRefreshRate);
   
   // Modified, Credit to @(http://stackoverflow.com/a/11546242/2741279)
   MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
   var observer = new MutationObserver(function(mutations, observer) {
+    if (ignoreDomChange) {
+      ignoreDomChange = false;
+      return false;
+    }
     if (canRefresh) {
-      trelloBoard = $('#board'); // Re-declare the new board
-      loadSettings();
-      canRefresh = false;
+      reapplyEnhancer();
+    } else {
+      domDirty = true;
     }
   });
   observer.observe(document.getElementById("content"), {
     subtree: true,
     attributes: true
   });
-  
   
   loadSettings();  
 });
