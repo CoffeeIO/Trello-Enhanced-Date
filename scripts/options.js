@@ -118,6 +118,12 @@ $(document).ready(function () {
     }
   });
   
+  $('#add-trello-colors').click(function () {
+    addRow('-1', '#e6c60d');
+    addRow('0', '#cf513d');
+    addRow('2', '#ec9488');
+  });
+  
   // Add row button
   table.find('.addRow').click(function () {
     addRow('', rowDefaultColor);
