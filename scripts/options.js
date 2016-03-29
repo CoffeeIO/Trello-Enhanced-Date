@@ -21,12 +21,10 @@ $(document).ready(function () {
     chrome.storage.sync.set({
       dateColor: arr
     }, function () {
-      status.text('Options saved');
-      statusIcon.addClass('glyphicon-ok-sign');
+      status.text('options saved').addClass('valid');
       setTimeout(function () {
-        status.text('');
-        statusIcon.removeClass('glyphicon-ok-sign');
-      }, 750);
+        status.text('').removeClass('valid');
+      }, 1000);
     });
   }
   
@@ -74,8 +72,7 @@ $(document).ready(function () {
   
   // Save options button
   $('#save').click(function () {
-    status.text('');
-    statusIcon.removeClass('glyphicon-remove-sign');
+    status.text('').removeClass('invalid');
     
     var arr = {},
         key = '',
@@ -91,15 +88,24 @@ $(document).ready(function () {
       if (key === null || key === '' || !key.match(numberRegex)) { 
         $dayInput.addClass('invalid');
         formValid = false;
+        status.text('invalid number of days selected');
         return false;
       } else {
         $dayInput.removeClass('invalid');
+      }
+      
+      if (arr[key] !== undefined && arr[key] !== '') {
+        $dayInput.addClass('invalid');
+        formValid = false;
+        status.text('number of days have already been used');
+        return false;
       }
       
       color = $colorInput.val();
       if (color === null || color === '' || !color.match(colorRegex)) {
         $colorInput.addClass('invalid');
         formValid = false;
+        status.text('invalid color selected, only HEX colors are supported');
         return false;
       } else {
         $colorInput.removeClass('invalid');
@@ -113,8 +119,7 @@ $(document).ready(function () {
     if (formValid) {
       saveOptions(arr);
     } else {
-      status.text('form invalid');
-      statusIcon.addClass('glyphicon-remove-sign');
+      status.addClass('invalid');
     }
   });
   

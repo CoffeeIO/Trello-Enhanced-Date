@@ -2,16 +2,25 @@ body {
   min-width: 500px;
 }
 .invalid {
-  background: #fff;
+  background-image: url(/images/interface.png);
+  background-repeat: no-repeat;
+}
+.valid {
+  background-image: url(/images/check.png);
+  background-repeat: no-repeat;
+}
+input.invalid {
   box-shadow: 0 0 5px #d45252;
   border-color: #b03535;
-  background: url(/images/interface.png) no-repeat 97% center;
+  background-color: #fff;
+  background-position: 97% center;
 }
-.glyphicon-ok-sign {
-  color: #357539;
+#status {
+  padding: 10px;
+  padding-right: 30px;
 }
-.glyphicon-remove-sign {
-  color: #bf4540;
+#status.invalid, #status.valid {
+  background-position: right center;
 }
 .btn {
   margin-bottom: 5px;
