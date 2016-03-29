@@ -1,6 +1,13 @@
 body {
   min-width: 500px;
 }
+#extension-title {
+  background-image: url(/images/icon32.png);
+  background-position: left center;
+  background-repeat: no-repeat;
+  padding: 5px;
+  padding-left: 40px;
+}
 .invalid {
   background-image: url(/images/interface.png);
   background-repeat: no-repeat;

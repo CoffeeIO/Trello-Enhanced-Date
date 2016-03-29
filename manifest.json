@@ -5,12 +5,20 @@
   "description": "Chrome Extension for making the Trello date reminder more customizable",
   "version": "0.1.0",
   "options_page": "pages/options.html",
+  "icons": {
+    "16": "/images/icon16.png",
+    "32": "/images/icon32.png",
+    "64": "/images/icon64.png" 
+  },
   "browser_action": {
-    "default_icon": "images/icon.png",
+    "default_icon": {
+      "16": "/images/icon16.png",
+      "32": "/images/icon32.png",
+      "64": "/images/icon64.png" 
+    },
     "default_popup": "pages/options.html"
   },
   "permissions": [
-    "tabs",
     "https://www.trello.com/*",
     "storage"
   ],
