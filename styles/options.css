@@ -32,3 +32,14 @@ input.invalid {
 .btn {
   margin-bottom: 5px;
 }
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+}
+.footer h3 {
+  margin: 0;
+}
