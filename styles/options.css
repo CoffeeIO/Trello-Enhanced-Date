@@ -45,3 +45,10 @@ input.invalid {
 .footer h3 {
   margin: 0;
 }
+#help-menu-toggle:before {
+  font-family: "Glyphicons Halflings";
+  content: "\e114";
+}
+#help-menu-toggle.collapsed:before {
+  content: "\e113";
+}
