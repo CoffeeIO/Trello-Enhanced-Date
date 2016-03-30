@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Test Extension Options</title>
+  <title>Trello Options</title>
   <link rel="stylesheet" href="/styles/vendor/bootstrap.min.css" />
   <link rel="stylesheet" href="/styles/options.css" />
 </head>
 <body>
   <div class="container">
-    <h3>Trello-Enhanced-Date settings</h3>
+    <h3 id="extension-title">Trello-Enhanced-Date settings</h3>
     <table class="table table-striped">
      <col width="50%">
      <col width="50%">
      <col width="50">
       <thead>
         <tr>
-          <th>Days:</th>
-          <th>Color:</th>
+          <th title="Number of days before apply the color, minus(-) indicates days before the cards deadline, positive indicates days after the cards deadline.">Days:</th>
+          <th title="HEX color, only hex with 4 or 7 characters allowed (e.g. #FFF and #FFFFFF)">Color:</th>
           <th></th>
         </tr>
       </thead>
@@ -29,12 +29,14 @@
         </tr>
       </tbody>
     </table>
-    <button id="save" class="btn btn-primary">Save</button><span id="status" style="margin-left:10px;"></span>
-    
-    <script src="/scripts/vendor/jquery.min.js"></script>
-    <script src="/scripts/vendor/jQueryColorPicker.min.js"></script>
-    <script src="/scripts/basic.js"></script>
-    <script src="/scripts/options.js"></script>
+    <button id="save" class="btn btn-primary">Save Settings</button>
+    <span id="status"></span>
+    <br>
+    <button id="add-trello-colors" class="btn btn-primary">Add Default Trello Colors</button>
   </div>  
+  <script src="/scripts/vendor/jquery.min.js"></script>
+  <script src="/scripts/vendor/jQueryColorPicker.min.js"></script>
+  <script src="/scripts/basic.js"></script>
+  <script src="/scripts/options.js"></script>
 </body>
 </html>
