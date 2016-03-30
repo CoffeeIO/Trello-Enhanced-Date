@@ -1,5 +1,6 @@
 body {
   min-width: 500px;
+  padding-bottom: 30px;
 }
 #extension-title {
   background-image: url(/images/icon32.png);
@@ -39,6 +40,7 @@ input.invalid {
   height: 30px;
   width: 100%;
   text-align: center;
+  background-color: #fff;
 }
 .footer h3 {
   margin: 0;
