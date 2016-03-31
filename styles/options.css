@@ -1,5 +1,6 @@
 body {
   min-width: 500px;
+  padding-bottom: 30px;
 }
 #extension-title {
   background-image: url(/images/icon32.png);
@@ -31,4 +32,29 @@ input.invalid {
 }
 .btn {
   margin-bottom: 5px;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  background-color: #fff;
+}
+.footer h3 {
+  margin: 0;
+}
+#help-menu-toggle:before {
+  font-family: "Glyphicons Halflings";
+  content: "\e114";
+}
+#help-menu-toggle.collapsed:before {
+  content: "\e113";
+}
+#help-menu-example1 {
+  text-align: center;
+}
+#help-menu-example1 img {
+  margin: 0 auto;
 }

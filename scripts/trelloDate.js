@@ -38,8 +38,7 @@ $(document).ready(function () {
       sortedKeys.forEach(function (key) {
         if (key <= diffDays) {
           var settingArr = JSON.parse(settingsMap[key]);
-          ele.css('background-color', settingArr.color);
-          ele.css('color', settingArr.textColor);
+          ele.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
         }
       });
     });

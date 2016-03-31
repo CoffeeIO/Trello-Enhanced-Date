@@ -33,9 +33,37 @@
     <span id="status"></span>
     <br>
     <button id="add-trello-colors" class="btn btn-primary">Add Default Trello Colors</button>
+    <br>
+    <button id="help-menu-toggle" class="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#help-menu" aria-expanded="false" aria-controls="help-menu">
+      Show help
+    </button>
+    <div id="help-menu" class="collapse">
+      <a class="" data-toggle="collapse" href="#help-menu-days" aria-expanded="false" aria-controls="help-menu-days">
+        <h4>Days info</h4>
+      </a>
+      <div class="collapse" id="help-menu-days">
+        <p>The number of days indicates when the selected color should be used. A <b>positive number of days</b> is number of days after the deadline. A <b>negative number of days</b> (e.g. "-7") indicates number of days before the deadline.</p>
+      </div>
+      <a class="" data-toggle="collapse" href="#help-menu-colors" aria-expanded="false" aria-controls="help-menu-colors">
+        <h4>Colors info</h4>
+      </a>
+      <div class="collapse" id="help-menu-colors">
+        <p>Colors are currently limited to <b>only hex colors</b>, as that's easy to write code for. The "#"(hash) character is currently required, so this will allow hex colors of 4 and 7 characters (e.g. #FFF and #FFFFFF)</p>
+        <p>If the is interest in support for RGB and named colors (e.g. light-blue), I'll look into implementing it.</p>
+      </div>
+      <a class="" data-toggle="collapse" href="#help-menu-example1" aria-expanded="false" aria-controls="help-menu-example1">
+        <h4>Example 1</h4>
+      </a>
+      <div class="collapse" id="help-menu-example1">
+        <img src="/examples/exampleSetting.PNG" class="img-responsive" alt="Responsive image">
+        <p><i>Example of settings</i></p>
+      </div>
+    </div>
+    <div class="footer"><h3>Contribute to this extension on <a href="https://github.com/MGApcDev/Trello-Enhanced-Date" target="_blank">Github</a></h3></div>
   </div>  
   <script src="/scripts/vendor/jquery.min.js"></script>
   <script src="/scripts/vendor/jQueryColorPicker.min.js"></script>
+  <script src="/scripts/vendor/bootstrap.min.js"></script>
   <script src="/scripts/basic.js"></script>
   <script src="/scripts/options.js"></script>
 </body>
