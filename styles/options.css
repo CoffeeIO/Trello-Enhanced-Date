@@ -52,3 +52,9 @@ input.invalid {
 #help-menu-toggle.collapsed:before {
   content: "\e113";
 }
+#help-menu-example1 {
+  text-align: center;
+}
+#help-menu-example1 img {
+  margin: 0 auto;
+}
