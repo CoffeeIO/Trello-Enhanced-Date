@@ -90,7 +90,7 @@ $(document).ready(function () {
   }
   
   // Re-apply trello enhance when dom changes, limit to once per second.
-  var maxRefreshRate = 1000,
+  var maxRefreshRate = 250,
       canRefresh = true,
       domDirty = false,
       ignoreDomChange = false;
