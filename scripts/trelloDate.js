@@ -1,7 +1,5 @@
 $(document).ready(function () {
-  var trelloBoard = $('#board'),
-      trelloWindow = $('.window'),
-      tempDate = new Date(),
+  var tempDate = new Date(),
       month = tempDate.getMonth() + 1,
       day = tempDate.getDate(),
       year = tempDate.getFullYear(),
@@ -37,7 +35,7 @@ $(document).ready(function () {
   
   // Apply date styling to trello board
   function applyTrelloBoard(settingsMap, sortedKeys) {
-    trelloBoard = $('#board'); // Re-declare the new board
+    var trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this),
           date = ele.find('.badge-text').text();
@@ -60,9 +58,9 @@ $(document).ready(function () {
   
   // Apply date styling to trello expanded cards
   function applyTrelloExpand(settingsMap, sortedKeys) {
-    trelloWindow = $('.window'),
-    label = trelloWindow.find('.js-card-detail-due-date-badge'),
-    diffDays = 0;
+    var trelloWindow = $('.window'),
+        label = trelloWindow.find('.js-card-detail-due-date-badge'),
+        diffDays = 0;
     if (label.length !== 0) {
       var date = label.text();
       if (matches = date.match(containBigDateRegex)) {
