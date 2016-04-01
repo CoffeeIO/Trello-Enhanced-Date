@@ -62,7 +62,8 @@ $(document).ready(function () {
         label = trelloWindow.find('.js-card-detail-due-date-badge'),
         diffDays = 0;
     if (label.length !== 0) {
-      var date = label.text();
+      var date = label.text(),
+          matches = null;
       if (matches = date.match(containBigDateRegex)) {
         date = matches[0];
         diffDays = getDiffDays(currentDate, new Date(date));
@@ -109,7 +110,7 @@ $(document).ready(function () {
   }, maxRefreshRate);
   
   // Modified, Credit to @(http://stackoverflow.com/a/11546242/2741279)
-  MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+  var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
   var observer = new MutationObserver(function(mutations, observer) {
     if (ignoreDomChange) {
       ignoreDomChange = false;
