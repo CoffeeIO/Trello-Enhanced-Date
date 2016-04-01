@@ -13,8 +13,12 @@ function sortIntArray(arr) {
  * Modified, Credit to @(http://stackoverflow.com/a/12043228/2741279)
  */
 function getLumColor(hex) {
-  var c = hex.substring(1),      // strip #
-      rgb = parseInt(c, 16),   // convert rrggbb to decimal
+  var c = hex.substring(1);    // strip #
+  // Convert 3 character hex to 6 character hex
+  if (c.length === 3) {
+    c = c[0] + c[0] + c[1] + c[1] + c[2] + c[2];
+  }
+  var rgb = parseInt(c, 16),   // convert rrggbb to decimal
       r = (rgb >> 16) & 0xff,  // extract red
       g = (rgb >>  8) & 0xff,  // extract green
       b = (rgb >>  0) & 0xff,  // extract blue
