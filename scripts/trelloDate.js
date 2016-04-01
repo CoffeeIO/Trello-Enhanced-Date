@@ -1,12 +1,17 @@
 $(document).ready(function () {
-  var trelloBoard = $('#board'),
-      tempDate = new Date(),
+  var tempDate = new Date(),
       month = tempDate.getMonth() + 1,
       day = tempDate.getDate(),
       year = tempDate.getFullYear(),
       currentDate = new Date(month + ' ' + day + ' ' + year), //Overwrite to get day at 00:00:00
-      smallDateRegex = /^[\s]*[\d]{1,2}[\s]+[a-zA-Z]{1,15}[\s]*$/; 
+      smallDateRegex = /^[\s]*[\d]{1,2}[\s]+[a-zA-Z]{1,15}[\s]*$/,
+      containSmallDateRegex = /^[\s]*([\d]{1,2})[\s]+([a-zA-Z]{1,15})[\s]*/,
+      containBigDateRegex = /^[\s]*([\d]{1,2})[\s]+([a-zA-Z]{1,15})[\s]*([\d]{3,4})[\s]*/,
+      containTodayRegex = /^[\s]*(s|today)[\s]*/,
+      containTomorrowRegex = /^[\s]*(s|tomorrow)[\s]*/,
+      containYesterdayRegex = /^[\s]*(s|yesterday)[\s]*/;
   
+  // Get settings from chrome storage
   function loadSettings() {
     chrome.storage.sync.get({
       dateColor: ''
@@ -15,14 +20,22 @@ $(document).ready(function () {
         return;
       }
       var loadArr = items.dateColor,
-          arrSorted = sortIntArray(Object.keys(loadArr));      
-      applyDateEnchance(loadArr, arrSorted);
+          arrSorted = sortIntArray(Object.keys(loadArr));
+      applyTrelloExpand(loadArr, arrSorted);
+      applyTrelloBoard(loadArr, arrSorted);
     });
-  } 
+  }
   
-  // Apply date styling to trello
-  function applyDateEnchance(settingsMap, sortedKeys) {
-    trelloBoard = $('#board'); // Re-declare the new board
+  // Finder number of days between to dates
+  // Modified, Credit to @(http://stackoverflow.com/a/3224854)
+  function getDiffDays(date1, date2) {
+    var timeDiff = date1.getTime() - date2.getTime();
+    return Math.ceil(timeDiff / (86400000)); // 1000 * 60 * 60 * 24
+  }
+  
+  // Apply date styling to trello board
+  function applyTrelloBoard(settingsMap, sortedKeys) {
+    var trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this),
           date = ele.find('.badge-text').text();
@@ -31,9 +44,8 @@ $(document).ready(function () {
       if (date.match(smallDateRegex)) {
         date += ' ' + currentDate.getFullYear();
       }
-      // Modified, Credit to @(http://stackoverflow.com/a/3224854)
-      var timeDiff = currentDate.getTime() - new Date(date).getTime(),
-          diffDays = Math.ceil(timeDiff / (86400000)); // 1000 * 60 * 60 * 24
+      
+      var diffDays = getDiffDays(currentDate, new Date(date));
       
       sortedKeys.forEach(function (key) {
         if (key <= diffDays) {
@@ -44,8 +56,40 @@ $(document).ready(function () {
     });
   }
   
+  // Apply date styling to trello expanded cards
+  function applyTrelloExpand(settingsMap, sortedKeys) {
+    var trelloWindow = $('.window'),
+        label = trelloWindow.find('.js-card-detail-due-date-badge'),
+        diffDays = 0;
+    if (label.length !== 0) {
+      var date = label.text(),
+          matches = null;
+      if (matches = date.match(containBigDateRegex)) {
+        date = matches[0];
+        diffDays = getDiffDays(currentDate, new Date(date));
+      } else if (matches = date.match(containSmallDateRegex)) {
+        date = matches[0] + currentDate.getFullYear();
+        diffDays = getDiffDays(currentDate, new Date(date));
+      } else if (date.match(containYesterdayRegex)) {
+        diffDays = 1;
+      } else if (date.match(containTodayRegex)) {
+        diffDays = 0;
+      } else if (date.match(containTomorrowRegex)) {
+        diffDays = -1;
+      } else {
+        return;
+      }
+      sortedKeys.forEach(function (key) {
+        if (key <= diffDays) {
+          var settingArr = JSON.parse(settingsMap[key]);
+          label.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+        }
+      });
+    } 
+  }
+  
   // Re-apply trello enhance when dom changes, limit to once per second.
-  var maxRefreshRate = 1000,
+  var maxRefreshRate = 250,
       canRefresh = true,
       domDirty = false,
       ignoreDomChange = false;
@@ -66,7 +110,7 @@ $(document).ready(function () {
   }, maxRefreshRate);
   
   // Modified, Credit to @(http://stackoverflow.com/a/11546242/2741279)
-  MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+  var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
   var observer = new MutationObserver(function(mutations, observer) {
     if (ignoreDomChange) {
       ignoreDomChange = false;
