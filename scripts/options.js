@@ -13,7 +13,6 @@ $(document).ready(function () {
       dateColor: '',
       highlightFuture: false
     }, function (items) {
-      console.log(items.highlightFuture);
       var loadArr = items.dateColor;
       if (loadArr !== '') {
         loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)));
