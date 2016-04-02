@@ -15,7 +15,7 @@ $(document).ready(function () {
     }, function (items) {
       var loadArr = items.dateColor;
       if (loadArr !== '') {
-        loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)));
+        loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)).reverse());
       }
       loadHighlightFromSettings(items.highlightFuture);
     });
