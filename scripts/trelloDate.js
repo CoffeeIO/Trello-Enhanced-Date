@@ -14,15 +14,17 @@ $(document).ready(function () {
   // Get settings from chrome storage
   function loadSettings() {
     chrome.storage.sync.get({
-      dateColor: ''
+      dateColor: '',
+      highlightFuture: false
     }, function (items) {
       if (items.dateColor === null || items.dateColor === '') {
         return;
       }
       var loadArr = items.dateColor,
-          arrSorted = sortIntArray(Object.keys(loadArr));
-      applyTrelloExpand(loadArr, arrSorted);
-      applyTrelloBoard(loadArr, arrSorted);
+          arrSorted = sortIntArray(Object.keys(loadArr)),
+          isHighlightFuture = items.highlightFuture;
+      applyTrelloExpand(loadArr, arrSorted, isHighlightFuture);
+      applyTrelloBoard(loadArr, arrSorted, isHighlightFuture);
     });
   }
   
@@ -32,13 +34,14 @@ $(document).ready(function () {
     var timeDiff = date1.getTime() - date2.getTime();
     return Math.ceil(timeDiff / (86400000)); // 1000 * 60 * 60 * 24
   }
-  
+    
   // Apply date styling to trello board
-  function applyTrelloBoard(settingsMap, sortedKeys) {
+  function applyTrelloBoard(settingsMap, sortedKeys, highlightFuture) {
     var trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this),
-          date = ele.find('.badge-text').text();
+          date = ele.find('.badge-text').text(),
+          styleApplied = false;
       ele.css('background-color', '#fff'); // Overwrite all cards w/ default color
       
       if (date.match(smallDateRegex)) {
@@ -50,17 +53,23 @@ $(document).ready(function () {
         if (key <= diffDays) {
           var settingArr = JSON.parse(settingsMap[key]);
           ele.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+          styleApplied = true;
         }
         return key <= diffDays;
       });
+      if (!styleApplied && highlightFuture) {
+        var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
+        ele.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+      }
     });
   }
   
   // Apply date styling to trello expanded cards
-  function applyTrelloExpand(settingsMap, sortedKeys) {
+  function applyTrelloExpand(settingsMap, sortedKeys, highlightFuture) {
     var trelloWindow = $('.window'),
         label = trelloWindow.find('.js-card-detail-due-date-badge'),
-        diffDays = 0;
+        diffDays = 0,
+        styleApplied = false;
     if (label.length !== 0) {
       var date = label.text(),
           matches = null;
@@ -83,9 +92,14 @@ $(document).ready(function () {
         if (key <= diffDays) {
           var settingArr = JSON.parse(settingsMap[key]);
           label.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+          styleApplied = true;
         }
         return key <= diffDays;
       });
+      if (!styleApplied && highlightFuture) {
+        var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
+        label.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+      }
     } 
   }
   
