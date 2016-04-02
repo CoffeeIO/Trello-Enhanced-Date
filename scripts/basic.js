@@ -1,5 +1,6 @@
 /**
- * Convert string array to int array and returns it sorted.
+ * Convert string array to int array and returns it sorted in reverse order.
+ * ["0", "-3", "5"] --returns--> [5, 3, 0]
  */
 function sortIntArray(arr) {
   var intArr = arr.map(Number);
