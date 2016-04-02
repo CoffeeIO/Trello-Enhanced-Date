@@ -57,6 +57,7 @@ $(document).ready(function () {
     });
   }
   
+  // Load highlight checkbox from settings
   function loadHighlightFromSettings(active) {
     $('#hightlight-future-dates').prop("checked", active);
   }
@@ -133,6 +134,7 @@ $(document).ready(function () {
     }
   });
   
+  // Add the default trello colors and day
   $('#add-trello-colors').click(function () {
     addRow('-1', '#E6C60D');
     addRow('0',  '#CF513D');
