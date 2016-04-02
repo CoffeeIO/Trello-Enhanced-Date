@@ -46,12 +46,12 @@ $(document).ready(function () {
       }
       
       var diffDays = getDiffDays(currentDate, new Date(date));
-      
-      sortedKeys.forEach(function (key) {
+      sortedKeys.some(function (key) {
         if (key <= diffDays) {
           var settingArr = JSON.parse(settingsMap[key]);
           ele.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
         }
+        return key <= diffDays;
       });
     });
   }
@@ -79,11 +79,12 @@ $(document).ready(function () {
       } else {
         return;
       }
-      sortedKeys.forEach(function (key) {
+      sortedKeys.some(function (key) {
         if (key <= diffDays) {
           var settingArr = JSON.parse(settingsMap[key]);
           label.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
         }
+        return key <= diffDays;
       });
     } 
   }
