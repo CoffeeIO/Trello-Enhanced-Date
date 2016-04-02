@@ -34,7 +34,26 @@ $(document).ready(function () {
     var timeDiff = date1.getTime() - date2.getTime();
     return Math.ceil(timeDiff / (86400000)); // 1000 * 60 * 60 * 24
   }
+
+  // Apply styling to single element
+  function applyCardStyling(sortedKeys, settingsMap, diffDays, element, highlightFuture) {
+    var styleApplied = false;
+    element.css('background-color', '#fff'); // Overwrite all cards w/ default color
     
+    sortedKeys.some(function (key) {
+      if (key <= diffDays) {
+        var settingArr = JSON.parse(settingsMap[key]);
+        element.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+        styleApplied = true;
+      }
+      return key <= diffDays;
+    });
+    if (!styleApplied && highlightFuture) {
+      var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
+      element.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+    }
+  }
+  
   // Apply date styling to trello board
   function applyTrelloBoard(settingsMap, sortedKeys, highlightFuture) {
     var trelloBoard = $('#board'); // Re-declare the new board
@@ -42,25 +61,14 @@ $(document).ready(function () {
       var ele = $(this),
           date = ele.find('.badge-text').text(),
           styleApplied = false;
-      ele.css('background-color', '#fff'); // Overwrite all cards w/ default color
       
       if (date.match(smallDateRegex)) {
         date += ' ' + currentDate.getFullYear();
       }
       
       var diffDays = getDiffDays(currentDate, new Date(date));
-      sortedKeys.some(function (key) {
-        if (key <= diffDays) {
-          var settingArr = JSON.parse(settingsMap[key]);
-          ele.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
-          styleApplied = true;
-        }
-        return key <= diffDays;
-      });
-      if (!styleApplied && highlightFuture) {
-        var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
-        ele.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
-      }
+      
+      applyCardStyling(sortedKeys, settingsMap, diffDays, ele, highlightFuture);
     });
   }
   
@@ -88,18 +96,8 @@ $(document).ready(function () {
       } else {
         return;
       }
-      sortedKeys.some(function (key) {
-        if (key <= diffDays) {
-          var settingArr = JSON.parse(settingsMap[key]);
-          label.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
-          styleApplied = true;
-        }
-        return key <= diffDays;
-      });
-      if (!styleApplied && highlightFuture) {
-        var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
-        label.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
-      }
+      
+      applyCardStyling(sortedKeys, settingsMap, diffDays, label, highlightFuture);
     } 
   }
   
