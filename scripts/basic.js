@@ -4,7 +4,7 @@
 function sortIntArray(arr) {
   var intArr = arr.map(Number);
   return intArr.sort(function(a, b) {
-    return a - b; 
+    return b - a; 
   });
 }
 
