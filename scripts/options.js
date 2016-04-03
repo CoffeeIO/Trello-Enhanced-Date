@@ -13,11 +13,12 @@ $(document).ready(function () {
       dateColor: '',
       highlightFuture: false
     }, function (items) {
-      var loadArr = items.dateColor;
-      if (loadArr !== '') {
-        loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)).reverse());
-      }
       loadHighlightFromSettings(items.highlightFuture);
+      if (items.dateColor === null || items.dateColor === '' || Object.keys(items.dateColor).length === 0) {
+        return;
+      }
+      var loadArr = items.dateColor;
+      loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)).reverse());
     });
   }
   
