@@ -17,7 +17,8 @@ $(document).ready(function () {
       dateColor: '',
       highlightFuture: false
     }, function (items) {
-      if (items.dateColor === null || items.dateColor === '') {
+      if (items.dateColor === null || items.dateColor === '' || Object.keys(items.dateColor).length === 0) {
+        overWriteDefault();
         return;
       }
       var loadArr = items.dateColor,
@@ -38,7 +39,7 @@ $(document).ready(function () {
   // Apply styling to single element
   function applyCardStyling(sortedKeys, settingsMap, diffDays, element, highlightFuture) {
     var styleApplied = false;
-    element.css('background-color', '#fff'); // Overwrite all cards w/ default color
+    element.css('background-color', '#fff').css('color', '#8c8c8c'); // Overwrite all cards w/ default color
     
     sortedKeys.some(function (key) {
       if (key <= diffDays) {
@@ -54,13 +55,22 @@ $(document).ready(function () {
     }
   }
   
+  // Overwrite trello's default styling
+  function overWriteDefault() {
+    var trelloBoard = $('#board'); // Re-declare the new board
+    trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
+      var ele = $(this);
+      
+      applyCardStyling(new Array(), null, 0, ele, false);
+    });
+  }
+  
   // Apply date styling to trello board
   function applyTrelloBoard(settingsMap, sortedKeys, highlightFuture) {
     var trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this),
-          date = ele.find('.badge-text').text(),
-          styleApplied = false;
+          date = ele.find('.badge-text').text();
       
       if (date.match(smallDateRegex)) {
         date += ' ' + currentDate.getFullYear();
@@ -76,8 +86,7 @@ $(document).ready(function () {
   function applyTrelloExpand(settingsMap, sortedKeys, highlightFuture) {
     var trelloWindow = $('.window'),
         label = trelloWindow.find('.js-card-detail-due-date-badge'),
-        diffDays = 0,
-        styleApplied = false;
+        diffDays = 0;
     if (label.length !== 0) {
       var date = label.text(),
           matches = null;
