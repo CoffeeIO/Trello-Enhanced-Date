@@ -39,19 +39,19 @@ $(document).ready(function () {
   // Apply styling to single element
   function applyCardStyling(sortedKeys, settingsMap, diffDays, element, highlightFuture) {
     var styleApplied = false;
-    element.css('background-color', '#fff').find('span').css('color', '#8c8c8c'); // Overwrite all cards w/ default color
+    element.css('background-color', '#fff').css('color', '#8c8c8c').find('span').css('color', '#8c8c8c'); // Overwrite all cards w/ default color
     
     sortedKeys.some(function (key) {
       if (key <= diffDays) {
         var settingArr = JSON.parse(settingsMap[key]);
-        element.css('background-color', settingArr.color).css('border-radius', '3px').find('span').css('color', settingArr.textColor);
+        element.css('background-color', settingArr.color).css('border-radius', '3px').css('color', settingArr.textColor).find('span').css('color', settingArr.textColor);
         styleApplied = true;
       }
       return key <= diffDays;
     });
     if (!styleApplied && highlightFuture) {
       var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
-      element.css('background-color', settingArr.color).css('border-radius', '3px').find('span').css('color', settingArr.textColor);
+      element.css('background-color', settingArr.color).css('border-radius', '3px').css('color', settingArr.textColor).find('span').css('color', settingArr.textColor);
     }
   }
   
