@@ -1,6 +1,17 @@
 # Trello-Enhanced-Date [![Codacy Badge](https://api.codacy.com/project/badge/grade/8e4aa286d21749aaae1edc72dd59f41f)](https://www.codacy.com/app/mgapcdev/Trello-Enhanced-Date)
 Chrome Extension for making the Trello date reminder more customizable
 
+## Usage
+<h5>Days info</h5>
+<p>The number of days indicates when the selected color should be used. A <b>positive number of days</b> is number of days after the deadline. A <b>negative number of days</b> (e.g. "-7") indicates number of days before the deadline.</p>
+<h5>Colors info</h5>
+<p>Colors are currently limited to <b>only hex colors</b>, as that's easy to write code for. The "#"(hash) character is currently required, so this will allow hex colors of 4 and 7 characters (e.g. #FFF and #FFFFFF)</p>
+<p>If the is interest in support for RGB and named colors (e.g. light-blue), I'll look into implementing it.</p>
+<h5>Language info</h5>
+<p>Currently <b>only english is fully supported</b>. If there is interest in support for other language send a mail to <a href="mailto:mgapcdev@gmail.com" target="_top">mgapcdev@gmail.com</a> or submit an issue on the github page.</p>
+<h5>Example 1</h5>
+<img src="/examples/example1.PNG" class="img-responsive" alt="Responsive image">
+
 ## Installation
 
 1. Download repo to local environment: `git clone https://github.com/MGApcDev/Trello-Enhanced-Date.git`
