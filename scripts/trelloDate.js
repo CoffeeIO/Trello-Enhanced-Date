@@ -14,15 +14,18 @@ $(document).ready(function () {
   // Get settings from chrome storage
   function loadSettings() {
     chrome.storage.sync.get({
-      dateColor: ''
+      dateColor: '',
+      highlightFuture: false
     }, function (items) {
-      if (items.dateColor === null || items.dateColor === '') {
+      if (items.dateColor === null || items.dateColor === '' || Object.keys(items.dateColor).length === 0) {
+        overWriteDefault();
         return;
       }
       var loadArr = items.dateColor,
-          arrSorted = sortIntArray(Object.keys(loadArr));
-      applyTrelloExpand(loadArr, arrSorted);
-      applyTrelloBoard(loadArr, arrSorted);
+          arrSorted = sortIntArray(Object.keys(loadArr)),
+          isHighlightFuture = items.highlightFuture;
+      applyTrelloExpand(loadArr, arrSorted, isHighlightFuture);
+      applyTrelloBoard(loadArr, arrSorted, isHighlightFuture);
     });
   }
   
@@ -32,14 +35,42 @@ $(document).ready(function () {
     var timeDiff = date1.getTime() - date2.getTime();
     return Math.ceil(timeDiff / (86400000)); // 1000 * 60 * 60 * 24
   }
+
+  // Apply styling to single element
+  function applyCardStyling(sortedKeys, settingsMap, diffDays, element, highlightFuture) {
+    var styleApplied = false;
+    element.css('background-color', '#fff').css('color', '#8c8c8c'); // Overwrite all cards w/ default color
+    
+    sortedKeys.some(function (key) {
+      if (key <= diffDays) {
+        var settingArr = JSON.parse(settingsMap[key]);
+        element.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+        styleApplied = true;
+      }
+      return key <= diffDays;
+    });
+    if (!styleApplied && highlightFuture) {
+      var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
+      element.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+    }
+  }
+  
+  // Overwrite trello's default styling
+  function overWriteDefault() {
+    var trelloBoard = $('#board'); // Re-declare the new board
+    trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
+      var ele = $(this);
+      
+      applyCardStyling(new Array(), null, 0, ele, false);
+    });
+  }
   
   // Apply date styling to trello board
-  function applyTrelloBoard(settingsMap, sortedKeys) {
+  function applyTrelloBoard(settingsMap, sortedKeys, highlightFuture) {
     var trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this),
           date = ele.find('.badge-text').text();
-      ele.css('background-color', '#fff'); // Overwrite all cards w/ default color
       
       if (date.match(smallDateRegex)) {
         date += ' ' + currentDate.getFullYear();
@@ -47,17 +78,12 @@ $(document).ready(function () {
       
       var diffDays = getDiffDays(currentDate, new Date(date));
       
-      sortedKeys.forEach(function (key) {
-        if (key <= diffDays) {
-          var settingArr = JSON.parse(settingsMap[key]);
-          ele.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
-        }
-      });
+      applyCardStyling(sortedKeys, settingsMap, diffDays, ele, highlightFuture);
     });
   }
   
   // Apply date styling to trello expanded cards
-  function applyTrelloExpand(settingsMap, sortedKeys) {
+  function applyTrelloExpand(settingsMap, sortedKeys, highlightFuture) {
     var trelloWindow = $('.window'),
         label = trelloWindow.find('.js-card-detail-due-date-badge'),
         diffDays = 0;
@@ -79,12 +105,8 @@ $(document).ready(function () {
       } else {
         return;
       }
-      sortedKeys.forEach(function (key) {
-        if (key <= diffDays) {
-          var settingArr = JSON.parse(settingsMap[key]);
-          label.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
-        }
-      });
+      
+      applyCardStyling(sortedKeys, settingsMap, diffDays, label, highlightFuture);
     } 
   }
   

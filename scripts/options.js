@@ -2,6 +2,7 @@ $(document).ready(function () {
   var table = $('.table'),
       status = $('#status'),
       statusIcon = $('#status-icon'),
+      highlightFuture = $('#hightlight-future-dates'),
       rowDefaultColor = '#FFFFFF',
       numberRegex = /^[\-]?[\d]*$/,
       colorRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
@@ -9,17 +10,23 @@ $(document).ready(function () {
   // Load settings from chrome storage
   function loadOptions() {
     chrome.storage.sync.get({
-      dateColor: ''
+      dateColor: '',
+      highlightFuture: false
     }, function (items) {
+      loadHighlightFromSettings(items.highlightFuture);
+      if (items.dateColor === null || items.dateColor === '' || Object.keys(items.dateColor).length === 0) {
+        return;
+      }
       var loadArr = items.dateColor;
-      loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)));
+      loadTableFromSettings(loadArr, sortIntArray(Object.keys(loadArr)).reverse());
     });
   }
   
   // Save settings array to chrome storage
-  function saveOptions(arr) {
+  function saveOptions(arr, active) {
     chrome.storage.sync.set({
-      dateColor: arr
+      dateColor: arr,
+      highlightFuture: active
     }, function () {
       status.text('options saved').addClass('valid');
       setTimeout(function () {
@@ -49,6 +56,11 @@ $(document).ready(function () {
       var arr = JSON.parse(settingsMap[key]);
       addRow(key, arr.color);
     });
+  }
+  
+  // Load highlight checkbox from settings
+  function loadHighlightFromSettings(active) {
+    $('#hightlight-future-dates').prop("checked", active);
   }
   
   // Add row to table
@@ -117,12 +129,13 @@ $(document).ready(function () {
     });
     
     if (formValid) {
-      saveOptions(arr);
+      saveOptions(arr, highlightFuture.is(':checked'));
     } else {
       status.addClass('invalid');
     }
   });
   
+  // Add the default trello colors and day
   $('#add-trello-colors').click(function () {
     addRow('-1', '#E6C60D');
     addRow('0',  '#CF513D');
