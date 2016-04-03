@@ -18,7 +18,7 @@ $(document).ready(function () {
       highlightFuture: false
     }, function (items) {
       if (items.dateColor === null || items.dateColor === '' || Object.keys(items.dateColor).length === 0) {
-        overWriteDefault();
+        overwriteDefault();
         return;
       }
       var loadArr = items.dateColor,
@@ -56,7 +56,7 @@ $(document).ready(function () {
   }
   
   // Overwrite trello's default styling
-  function overWriteDefault() {
+  function overwriteDefault() {
     var trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this);
