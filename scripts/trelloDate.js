@@ -18,7 +18,7 @@ $(document).ready(function () {
       highlightFuture: false
     }, function (items) {
       if (items.dateColor === null || items.dateColor === '' || Object.keys(items.dateColor).length === 0) {
-        overWriteDefault();
+        overwriteDefault();
         return;
       }
       var loadArr = items.dateColor,
@@ -39,24 +39,24 @@ $(document).ready(function () {
   // Apply styling to single element
   function applyCardStyling(sortedKeys, settingsMap, diffDays, element, highlightFuture) {
     var styleApplied = false;
-    element.css('background-color', '#fff').css('color', '#8c8c8c'); // Overwrite all cards w/ default color
+    element.css('background-color', '#fff').find('span').css('color', '#8c8c8c'); // Overwrite all cards w/ default color
     
     sortedKeys.some(function (key) {
       if (key <= diffDays) {
         var settingArr = JSON.parse(settingsMap[key]);
-        element.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+        element.css('background-color', settingArr.color).css('border-radius', '3px').find('span').css('color', settingArr.textColor);
         styleApplied = true;
       }
       return key <= diffDays;
     });
     if (!styleApplied && highlightFuture) {
       var settingArr = JSON.parse(settingsMap[sortedKeys[sortedKeys.length - 1]]);
-      element.css('background-color', settingArr.color).css('color', settingArr.textColor).css('border-radius', '3px');
+      element.css('background-color', settingArr.color).css('border-radius', '3px').find('span').css('color', settingArr.textColor);
     }
   }
   
   // Overwrite trello's default styling
-  function overWriteDefault() {
+  function overwriteDefault() {
     var trelloBoard = $('#board'); // Re-declare the new board
     trelloBoard.find('[class*="is-due-"]').each(function (index, obj) {
       var ele = $(this);
