@@ -1,4 +1,4 @@
-# Trello-Enhanced-Date [![Codacy Badge](https://api.codacy.com/project/badge/grade/8e4aa286d21749aaae1edc72dd59f41f)](https://www.codacy.com/app/mgapcdev/Trello-Enhanced-Date)
+# Trello-Enhanced-Date [![Codacy Badge](https://api.codacy.com/project/badge/grade/8e4aa286d21749aaae1edc72dd59f41f)](https://www.codacy.com/app/mgapcdev/Trello-Enhanced-Date) [![Chrome Web Store](https://img.shields.io/chrome-web-store/users/ekkepplnmefeilpjninfgmmbdadamadl.svg)]()
 Chrome Extension for making the Trello due date reminder more customizable.
 
 You can find the extension on the Chrome store: [Trello Enhanced Date](https://chrome.google.com/webstore/detail/trello-enhanced-date/ekkepplnmefeilpjninfgmmbdadamadl)
